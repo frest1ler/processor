@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "stack.h"
-#include "stack_push.h"
-#include "stack_pop.h"
-#include "stack_ctor.h"
-#include "stack_destroy.h"
+#include "stack_functions.h"
 #include "functions_provided_by_processor.h"
 
 int main()

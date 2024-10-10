@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "functions_provided_by_processor.h"
-#include "stack_pop.h"
-#include "stack_push.h"
-#include "stack_destroy.h"
+#include "stack_functions.h"
 #include "myassert.h"
 
 void add_last_two_elements(Stack_t * stack)

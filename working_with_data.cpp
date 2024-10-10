@@ -21,55 +21,54 @@ void check_capacity(Stack_t * stack)
     {
         return;
     }
-
-    stack_elem_t* array = (stack_elem_t*)realloc(stack->data - 1,
-                                                 stack->capacity * sizeof(stack_elem_t) +
-                                                 NUM_CANARY_ARRAY * sizeof(double));
+    #ifdef  PROTECTION_ON
+        stack_elem_t* array = (stack_elem_t*)realloc(stack->data - 1,
+                                                     stack->capacity * sizeof(stack_elem_t) +
+                                                     NUM_CANARY_ARRAY * sizeof(double));
+    #else
+        stack_elem_t* array = (stack_elem_t*)realloc(stack->data, stack->capacity * sizeof(stack_elem_t));
+    #endif /* PROTECTION_ON*/
 
     stack->data = array + 1;
 
-    *(stack->data + stack->capacity) = CANARY_PROTECTION_4;
+    #ifdef PROTECTION_ON
+        *(stack->data + stack->capacity) = CANARY_PROTECTION_4;
+    #endif /* PROTECTION_ON*/
 
-    if (fill_poison)
-    {
-        pour_poison_into_empty(stack->data, stack->size, stack->capacity);
-    }
-
+    #ifdef  PROTECTION_ON
+        if (fill_poison)
+        {
+            pour_poison_into_empty(stack->data, stack->size, stack->capacity);
+        }
+    #endif /* PROTECTION_ON*/
     verify(ASSERT);
 }
-
-void pour_poison_into_empty(stack_elem_t* data, int size, int capacity)
-{
-    for(int i = 0; size + i < capacity; i++)
+#ifdef PROTECTION_ON
+    void pour_poison_into_empty(stack_elem_t* data, int size, int capacity)
     {
-        data[size + i] = POISON;
+        for(int i = 0; size + i < capacity; i++)
+        {
+            data[size + i] = POISON;
+        }
     }
-}
 
-unsigned long hash(void* array, size_t size)
-{
-    unsigned long hash = 5381;
-
-    unsigned char* byte_array = (unsigned char*)array;
-
-    for(size_t i = 0; i < size; i++)
+    unsigned long hash(void* array, size_t size)
     {
-        hash = ((hash << 5) + hash) + byte_array[i];
+        unsigned long hash = 5381;
+
+        unsigned char* byte_array = (unsigned char*)array;
+
+        for(size_t i = 0; i < size; i++)
+        {
+            hash = ((hash << 5) + hash) + byte_array[i];
+        }
+        return hash;
     }
-    return hash;
-}
 
-void setTextColor(int color)
-{
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    void setTextColor(int color)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    SetConsoleTextAttribute(hConsole, color);
-}
-
-// int glue_into_double(void* number)
-// {
-//     for(size_t i = 0; i < ; i++)
-//     {
-//
-//     }
-// }
+        SetConsoleTextAttribute(hConsole, color);
+    }
+#endif /*PROTECTION_ON*/
