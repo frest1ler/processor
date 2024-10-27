@@ -4,7 +4,7 @@
 #include "stack_functions.h"
 #include "myassert.h"
 
-void add_last_two_elements(Stack_t * stack)
+void add(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -23,7 +23,7 @@ void add_last_two_elements(Stack_t * stack)
     verify(ASSERT);
 }
 
-void subtract_penultimate_from_last(Stack_t * stack)
+void sub(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -37,12 +37,12 @@ void subtract_penultimate_from_last(Stack_t * stack)
     stack_elem_t first  = stack_pop(stack);
     stack_elem_t second = stack_pop(stack); //also
 
-    stack_push(stack, first - second);\
+    stack_push(stack, first - second);
 
     verify(ASSERT);
 }
 
-void multiply_last_two(Stack_t * stack)
+void mul(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -61,7 +61,7 @@ void multiply_last_two(Stack_t * stack)
     verify(ASSERT);
 }
 
-void divide_last_by_penultimate(Stack_t * stack)
+void div(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -80,7 +80,7 @@ void divide_last_by_penultimate(Stack_t * stack)
     verify(ASSERT);
 }
 
-void output_last(Stack_t * stack)
+void out(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -96,7 +96,7 @@ void output_last(Stack_t * stack)
     verify(ASSERT);
 }
 
-void sqrt_calculate(Stack_t * stack)
+void sqrt_c(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -116,7 +116,7 @@ void sqrt_calculate(Stack_t * stack)
     verify(ASSERT);
 }
 
-void sin_calculate(Stack_t * stack)
+void sin_c(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -136,7 +136,7 @@ void sin_calculate(Stack_t * stack)
     verify(ASSERT);
 }
 
-void cos_calculate(Stack_t * stack)
+void cos_c(Stack_t * stack)
 {
     verify(ASSERT);
 
@@ -146,6 +146,7 @@ void cos_calculate(Stack_t * stack)
 
         return;
     }
+
     stack_elem_t a = stack_pop(stack);
 
     a = cos(a);
@@ -153,4 +154,11 @@ void cos_calculate(Stack_t * stack)
     stack_push(stack, a);
 
     verify(ASSERT);
+}
+
+void hlt(Stack_t * stack)
+{
+    stack_destroy(stack);
+
+    exit(EXIT_FAILURE);
 }

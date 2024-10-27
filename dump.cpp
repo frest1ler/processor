@@ -20,7 +20,7 @@ void dump(Stack_t * stack)
             printf("" STACK_SPECIFIER"(%d) ", *(stack->data + j), j + 1);
         }
 
-        printf("" CANARY_SPECIFIER"(%d) ", *(stack->data + stack->capacity), stack->capacity);
+        printf("" CANARY_SPECIFIER"(%d) ", *(stack->data + stack->capacity), stack->capacity + 1);
     #else
     printf("\n\n\nstack->capacity = %d\nstack->size = %d\n"
            , stack->capacity, stack->size);
@@ -29,5 +29,6 @@ void dump(Stack_t * stack)
         {
             printf("" STACK_SPECIFIER"(%d) ", *(stack->data + j), j + 1);
         }
+        
     #endif /*PROTECTION_ON*/
 }

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <assert.h>
-#include <math.h>
 #include "myassert.h"
 #include "working_with_data.h"
 #include "stack_functions.h"
