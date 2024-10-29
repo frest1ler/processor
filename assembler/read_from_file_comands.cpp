@@ -9,13 +9,13 @@
 static void search_new_line(Info_about_text* info);
 static void count_number_lines(Info_about_text* info);
 //static void check_empty_lines(int* line_element, Info_about_text* info);
-void        calculate_array_size(Info_about_text *info, char* fname);
+void        calculate_array_size(Info_about_text *info, const char* fname);
 
 void read_from_file_comands(Info_about_text* info)
 {
     assert(info);
 
-    char* fname = "COMANDS.txt";
+    const char* fname = "COMANDS.txt";
 
     FILE * point_to_file = fopen(fname, "rb");
 
@@ -55,7 +55,7 @@ void initialize_pointer_array(Info_about_text* info)
     search_new_line(info);
 }
 
-void calculate_array_size(Info_about_text *info, char* fname)
+void calculate_array_size(Info_about_text *info, const char* fname)
 {
     assert(info);
     assert(fname);
