@@ -18,6 +18,6 @@ enum Function_identifier
     HLT    = -1,
 };
 
-void perform_comands(char* comands, char* next_comands, size_t* ip, stack_elem_t* code);
+void perform_comands(char* comands, size_t* ip, stack_elem_t* code);
 
 #endif /*WRITE_COMANDS_TO_FILE_H*/

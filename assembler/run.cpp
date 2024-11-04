@@ -10,6 +10,7 @@ void run_code(Info_about_text* info, stack_elem_t* code);
 //void code_destroy(stack_elem_t* code);
 //stack_elem_t* code_ctor();
 void write_byte_to_file(stack_elem_t* code, size_t ip);
+void free_up_memory_from_text(Info_about_text* info);
 
 void run()
 {
@@ -30,10 +31,12 @@ void run_code(Info_about_text* info, stack_elem_t* code)
 {
     size_t ip = 0;
 
-    for(int number_comand = 1; number_comand <= info->max_number_line; number_comand++)
+    for(int number_comand = 0; number_comand < info->max_number_line - 1; number_comand++)
     {
-        perform_comands(info->ptr_line[number_comand - 1], info->ptr_line[number_comand], &ip, code);
+        perform_comands(info->ptr_line[number_comand], &ip, code);
     }
+
+    free_up_memory_from_text(info);
 
     write_byte_to_file(code, ip);
 }
@@ -67,7 +70,7 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
         exit(EXIT_FAILURE);
     }
 
-    printf("ip=%lld\n", ip);
+    printf("ip=%ld\n", ip);
 
     for(int k = 0; k < 10; k++)
     {
@@ -75,10 +78,6 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
     }
     
     size_t elements_written = fwrite(code, sizeof(stack_elem_t), ip, point_to_file);
-
-    printf("cat");
-
-    printf("el=%lld", elements_written);
 
     if (elements_written != ip)
     {
@@ -90,4 +89,25 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
     }
 
     fclose(point_to_file);
+}
+
+void free_up_memory_from_text(Info_about_text* info)
+{
+    if (info->text != NULL)
+    {
+        free(info->text);
+    }
+    else
+    {
+        printf("NULL ptr_text\n");
+    }
+
+    if (info->ptr_line != NULL)
+    {
+        free(info->ptr_line);  
+    }
+    else
+    {
+        printf("NULL ptr_line\n");
+    }
 }

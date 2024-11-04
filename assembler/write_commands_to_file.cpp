@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include "write_comands_to_file.h"
 
-void perform_comands(char* comands, char* next_comands, size_t* ip, stack_elem_t* code)
+void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
 {
     int argument = 0;
     int i        = 0;
-    int size_commands = next_comands - comands;
-    printf("size_com=%d", size_commands);
+    // int size_commands = next_comands - comands;
+    // printf("size_com=%d", size_commands);
     //int *array;
 
     //array = (int*)calloc(size_commands, sizeof(int));
@@ -101,4 +101,5 @@ void perform_comands(char* comands, char* next_comands, size_t* ip, stack_elem_t
 
         //hlt(stack);
     }
+    printf("%s", cmd);
 }

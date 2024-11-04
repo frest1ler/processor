@@ -99,18 +99,15 @@ static void search_new_line(Info_about_text* info)
     size_t number_line  = 1;
 
     info->ptr_line[0] = info->text;
-
-    while((symbol = info->text[line_element]) != EOF)
+    
+    for(int i = 0; i < info->size_text - 1; i++)
     {
-        line_element++;
 
-        if (symbol == '\0')
+        if (info->text[i] == '\0')
         {
-            info->ptr_line[number_line] = (char*)(info->text + line_element);
+            info->ptr_line[number_line] = (info->text + i + 1);
 
-            line_element++;
             number_line++;
-
         }
     }
 }
@@ -118,6 +115,8 @@ static void search_new_line(Info_about_text* info)
 static void count_number_lines(Info_about_text* info)
 {
     assert(info);
+
+    info->max_number_line = 1;
 
     char symbol = 0;
 
