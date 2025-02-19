@@ -1,10 +1,9 @@
 #include <stdio.h>
-//#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "run.h"
 #include "read_from_file_comands.h"
-#include "write_comands_to_file.h"
+#include "write_asm_comands_to_file.h"
 
 void run_code(Info_about_text* info, stack_elem_t* code);
 //void code_destroy(stack_elem_t* code);
