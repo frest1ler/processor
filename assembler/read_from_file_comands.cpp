@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -143,3 +142,31 @@ static void count_number_lines(Info_about_text* info)
 //         *line_element++;
 //     }
 // }
+
+stack_elem_t* code_ctor(Info_about_text* info)
+{
+    size_t size = info->size_text;
+
+    if (size == 0) {
+        printf("ERROR: size text = 0.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    stack_elem_t* code = (stack_elem_t*)calloc(size, sizeof(stack_elem_t));
+        if (code == NULL) {
+            printf("ERROR: Failed to allocate memory for the array code.\n");
+            exit(EXIT_FAILURE);
+        }
+
+    return code;
+}
+
+void code_dtor(stack_elem_t* code)
+{
+    if (code != NULL){
+        free(code);
+    }
+    else{
+        printf("CODE == NULL ptr\n");
+    }
+}
