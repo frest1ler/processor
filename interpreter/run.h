@@ -1,6 +1,9 @@
 #ifndef RUN_H
 #define RUN_H
 
+const int ARGUMENT_LENGTH = 50;
+const int COMMAND_LENGTH  = 50;
+
 #include "stack.h"
 
 struct Info_about_text

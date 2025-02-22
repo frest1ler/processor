@@ -6,13 +6,13 @@
 
 int main()
 {
-    Stack_t stack = *get_pointer_stack();
+    Stack_t* stack = get_pointer_stack();
 
-    stack_ctor(&stack);
+    stack_ctor(stack);
 
-    //run(&stack);
+    run(stack);
 
-    stack_destroy(&stack);
+    stack_destroy(stack);
 
     return 0;
 }

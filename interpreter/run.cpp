@@ -14,15 +14,15 @@ void perform_comands(Stack_t* stack, char* comands);
 
 void run(Stack_t* stack)
 {
-    //Info_about_text info = {};
+    Info_about_text info = {};
 
-    //read_from_file_comands(&info);
+    read_from_file_comands(&info);
 
-    //locate_and_save_newlines(&info);
+    locate_and_save_newlines(&info);
 
-    //run_code(&info, stack);
+    run_code(&info, stack);
 
-    //free_up_memory_from_text(&info);
+    free_up_memory_from_text(&info);
 }
 
 void run_code(Info_about_text* info, Stack_t* stack)
@@ -32,6 +32,7 @@ void run_code(Info_about_text* info, Stack_t* stack)
     for(int number_comand = 0; number_comand < info->max_number_line; number_comand++)
     {
         perform_comands(stack, info->ptr_line[number_comand]);
+        //printf("%s", info->ptr_line);
     }
 
 }
@@ -41,8 +42,8 @@ void perform_comands(Stack_t* stack, char* comands)
     stack_elem_t argument = 0;
     int i   = 0;
     int num = 0;
-    char cmd[50] = {};
-    char arg[50] = {};
+    char cmd[COMMAND_LENGTH] = {};
+    char arg[ARGUMENT_LENGTH] = {};
 
     while(comands[i] != ' ' && comands[i] != '\0' && i < 50)
     {

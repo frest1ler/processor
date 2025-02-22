@@ -43,6 +43,12 @@ void read_from_file_comands(Info_about_text* info)
 
     info->text[info->size_text - 1] = '\0';
 
+    printf("\nnumber_successfully_read_chars=%d\n", number_successfully_read_chars);
+    for(int i = 0; i < number_successfully_read_chars; i++)
+    {
+        printf("%d ", info->text[i]);
+    }
+
     return;
 }
 
@@ -84,15 +90,25 @@ void calculate_array_size(Info_about_text *info, char* fname)
 
 static void search_new_line(Info_about_text* info)
 {
-    if (!info)
-    {
+    if (!info){
         printf("structure transfer error\n");
-
         exit(EXIT_FAILURE);
     }
+
     assert(info->text);
 
-    info->ptr_line = (char**)calloc(info->max_number_line, sizeof(char*));
+    if (info->max_number_line > 0){
+        info->ptr_line = (char**)calloc(info->max_number_line, sizeof(char*));\
+    }
+    else{
+        printf("info->max_number_line = %d", info->max_number_line);
+        exit(EXIT_FAILURE);
+    }
+    
+    if (info->ptr_line == NULL){
+        printf("info->ptr_line == NULL\n");
+        exit(EXIT_FAILURE);
+    }
 
     char symbol         = 0;
     size_t line_element = 0;
