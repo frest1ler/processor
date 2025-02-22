@@ -1,6 +1,9 @@
 #ifndef WRITE_ASM_COMANDS_TO_FILE_H
 #define WRITE_ASM_COMANDS_TO_FILE_H
 
+const int COMMAND_LENGTH  = 50;
+const int ARGUMENT_LENGTH = 50;
+
 #include "run.h"
 
 enum Function_identifier

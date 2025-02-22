@@ -2,7 +2,7 @@
 
 int main()
 {
-    run();
+    run(); //TODO ПРЕКРАТИТЬ ХУЙНЮ
 
     return 0;
 }

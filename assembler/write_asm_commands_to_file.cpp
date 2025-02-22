@@ -3,39 +3,57 @@
 #include <stdlib.h>
 #include "write_asm_comands_to_file.h"
 
+void copy_command_name(int* i, char* comands, char* cmd);
+int command_argument_check(char* cmd, char* comands, int i);
+int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument);
+
 void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
 {
-    int argument = 0;
-    int i        = 0;
-    // int size_commands = next_comands - comands;
-    // printf("size_com=%d", size_commands);
-    //int *array;
+    int i = 0;
+    char cmd[COMMAND_LENGTH] = {};
 
-    //array = (int*)calloc(size_commands, sizeof(int));
-    //char* a = (char*)calloc(size_commands, sizeof(char));
-    char cmd[50] = {};
-    char arg[50] = {};
+    copy_command_name(&i, comands, cmd);
 
-    while(comands[i] != ' ' && comands[i] != '\0' && comands[i] != '\r' && i < 49)
+    int argument = command_argument_check(cmd, comands, i);
+
+    encode_command(cmd, ip, code, argument);
+}
+
+void copy_command_name(int* i, char* comands, char* cmd)
+{
+    while(comands[*i] != ' ' && comands[*i] != '\0' &&
+          comands[*i] != '\r' && *i < COMMAND_LENGTH)
     {
-        cmd[i] = comands[i];
-        i++;
+        //printf("i = %d\n", *i);
+        
+        cmd[*i] = comands[*i];
+        (*i)++;
     }
 
-    i++;
-    int num = i;
+    (*i)++;
+}
+
+int command_argument_check(char* cmd, char* comands, int i)
+{
+    char arg[ARGUMENT_LENGTH] = {};
 
     if (strcmp(cmd, "push") == 0)
     {
-        while(comands[i] != ' ' && comands[i] != '\0' && comands[i] != '\r' && i < 49)
+        int num = i;
+
+        while(comands[i] != ' ' && comands[i] != '\0' &&
+              comands[i] != '\r' && i < COMMAND_LENGTH)
         {
             arg[i - num] = comands[i];
             i++;
         }
         arg[i] = '\0';
-        argument = atoi(arg);
     }
+    return atoi(arg);
+}
 
+int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument)
+{
     if (strcmp(cmd, "push") == 0)
     {
         code[*ip] = PUSH;
@@ -99,7 +117,9 @@ void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
         printf("%s", cmd);
         printf("%s : there is no such command\n", cmd);
 
-        //hlt(stack);
+        return 1;
     }
     printf("%s", cmd);
+
+    return 0;    
 }

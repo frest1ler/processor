@@ -1,5 +1,5 @@
 #ifndef RUN_H
-#define RUN_H
+#define RUN_H //TODO rename
 
 typedef int stack_elem_t;
 

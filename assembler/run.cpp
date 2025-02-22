@@ -5,13 +5,11 @@
 #include "read_from_file_comands.h"
 #include "write_asm_comands_to_file.h"
 
-void run_code(Info_about_text* info, stack_elem_t* code);
-//void code_destroy(stack_elem_t* code);
-//stack_elem_t* code_ctor();
+void encode_data_to_asm(Info_about_text* info, stack_elem_t* code);
 void write_byte_to_file(stack_elem_t* code, size_t ip);
 void free_up_memory_from_text(Info_about_text* info);
 
-void run()
+void run() //TODO rename
 {
     Info_about_text info = {};
 
@@ -19,15 +17,31 @@ void run()
 
     initialize_pointer_array(&info);
 
-    stack_elem_t code[10] = {};
+    size_t size = info.size_text;
 
-    run_code(&info, code);
+    if (size == 0) {
+        printf("ERROR: size text = 0.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    //code_destroy(code);
+    stack_elem_t* code = (stack_elem_t*)calloc(size, sizeof(stack_elem_t));
+    if (code == NULL) {
+        printf("ERROR: Failed to allocate memory for the array code.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    encode_data_to_asm(&info, code);
+
+    free(code);
 }
 
-void run_code(Info_about_text* info, stack_elem_t* code)
+void encode_data_to_asm(Info_about_text* info, stack_elem_t* code)
 {
+    if (info == NULL) {
+        printf("ERROR: info = NULL.\n");
+        exit(EXIT_FAILURE);
+    }
+
     size_t ip = 0;
 
     for(int number_comand = 0; number_comand < info->max_number_line - 1; number_comand++)
@@ -40,22 +54,6 @@ void run_code(Info_about_text* info, stack_elem_t* code)
     write_byte_to_file(code, ip);
 }
 
-// void code_destroy(stack_elem_t* code)
-// {
-//     if (code != NULL)
-//     {
-//         free(code);
-//     }
-// }
-
-// stack_elem_t* code_ctor()
-// {
-//     printf("Hello\n");
-//     stack_elem_t* code = (stack_elem_t*)calloc(10, sizeof(stack_elem_t));
-//     printf("%p\n", code);
-//     return code;
-// }
-
 void write_byte_to_file(stack_elem_t* code, size_t ip)
 {
     const char* fname = "CODE_AS.txt";
@@ -65,25 +63,23 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
     if (!point_to_file)
     {
         printf("The file does not open\n");
-
         exit(EXIT_FAILURE);
     }
 
-    printf("ip=%ld\n", ip);
+    printf("ip=%lu\n", ip);
 
     for(int k = 0; k < 10; k++)
     {
-        printf("%d", code[k]);
+        printf("%d ", code[k]);
     }
-    
+    printf("\n");
+
     size_t elements_written = fwrite(code, sizeof(stack_elem_t), ip, point_to_file);
 
     if (elements_written != ip)
     {
         printf("Error writing to the file.\n");
-
         fclose(point_to_file);
-
         exit(EXIT_FAILURE);
     }
 
