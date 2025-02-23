@@ -9,114 +9,64 @@
 #include "read_from_file_comands.h"
 #include "working_with_data.h"
 
-void run_code(Info_about_text* info, Stack_t* stack);
-void perform_comands(Stack_t* stack, char* comands);
-
-void run(Stack_t* stack)
+void perform_comands(Stack_t* stack, Info_about_text* info)
 {
-    Info_about_text info = {};
-
-    read_from_file_comands(&info);
-
-    locate_and_save_newlines(&info);
-
-    run_code(&info, stack);
-
-    free_up_memory_from_text(&info);
-}
-
-void run_code(Info_about_text* info, Stack_t* stack)
-{
-    printf("ncom = %d\n", info->max_number_line);
-
-    for(int number_comand = 0; number_comand < info->max_number_line; number_comand++)
-    {
-        perform_comands(stack, info->ptr_line[number_comand]);
-        //printf("%s", info->ptr_line);
-    }
-
-}
-
-void perform_comands(Stack_t* stack, char* comands)
-{
-    stack_elem_t argument = 0;
     int i   = 0;
-    int num = 0;
-    char cmd[COMMAND_LENGTH] = {};
-    char arg[ARGUMENT_LENGTH] = {};
-
-    while(comands[i] != ' ' && comands[i] != '\0' && i < 50)
+    while(info->text[i] != HLT && i < info->size_text)
     {
-        cmd[i - num] = comands[i];
-        i++;
-    }
-    cmd[i] = '\0';
-
-    i++;
-    num = i;
-
-    if (strcmp(cmd, "push") == 0)
-    {
-        while(comands[i] != ' ' && comands[i] != '\0' && i < 50)
+        if (info->text[i] == PUSH)
         {
-            arg[i - num] = comands[i];
             i++;
+            int argument = info->text[i];
+
+            stack_push(stack, argument);
         }
-        arg[i] = '\0';
-        argument = atoi(arg);
-    }
+        else if (info->text[i] == POP)
+        {
+            stack_pop(stack);
+        }
+        else if (info->text[i] == ADD)
+        {
+            add(stack);
+        }
+        else if (info->text[i] == SUB)
+        {
+            sub(stack);
+        }
+        else if (info->text[i] == MUL)
+        {
+            mul(stack);
+        }
+        else if (info->text[i] == DIV)
+        {
+            div(stack);
+        }
+        else if (info->text[i] == OUT)
+        {
+            out(stack);
+        }
+        else if (info->text[i] == SQRT_C)
+        {
+            sqrt_c(stack);
+        }
+        else if (info->text[i] == SIN_C)
+        {
+            sin_c(stack);
+        }
+        else if (info->text[i] == COS_C)
+        {
+            cos_c(stack);
+        }
+        else if (info->text[i] == HLT)
+        {       
+            hlt(stack);
+        }
+        else
+        {
+            printf("\n%d : there is no such command\n", info->text[i]);
 
-    printf("\n%s\n", cmd);
-
-    if (strcmp(cmd, "push") == 0)
-    {
-        stack_push(stack, argument);
-    }
-    else if (strcmp(cmd, "pop") == 0)
-    {
-        stack_pop(stack);
-    }
-    else if (strcmp(cmd, "add") == 0)
-    {
-        add(stack);
-    }
-    else if (strcmp(cmd, "sub") == 0)
-    {
-        sub(stack);
-    }
-    else if (strcmp(cmd, "mul") == 0)
-    {
-        mul(stack);
-    }
-    else if (strcmp(cmd, "div") == 0)
-    {
-        div(stack);
-    }
-    else if (strcmp(cmd, "out") == 0)
-    {
-        out(stack);
-    }
-    else if (strcmp(cmd, "sqrt_c") == 0)
-    {
-        sqrt_c(stack);
-    }
-    else if (strcmp(cmd, "sin_c") == 0)
-    {
-        sin_c(stack);
-    }
-    else if (strcmp(cmd, "cos_c") == 0)
-    {
-        cos_c(stack);
-    }
-    else if (strcmp(cmd, "hlt") == 0)
-    {       
-        hlt(stack);
-    }
-    else
-    {
-        printf("%s", cmd);
-        printf("%s : there is no such command\n", cmd);
-
-        hlt(stack);
+            hlt(stack);
+        }
+        i++;
     }
 }

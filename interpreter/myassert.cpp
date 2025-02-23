@@ -5,7 +5,6 @@
 #include "stack_functions.h"
 #include "dump.h"
 
-//#define RED     "\033[1;31m"
 const char* const RED = "\033[1;31m";
 
 int  collect_error(Stack_t * stack);

@@ -77,13 +77,4 @@ void free_up_memory_from_text(Info_about_text* info)
     {
         printf("NULL ptr_text\n");
     }
-
-    if (info->ptr_line != NULL)
-    {
-        free(info->ptr_line);  
-    }
-    else
-    {
-        printf("NULL ptr_line\n");
-    }
 }

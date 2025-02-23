@@ -8,7 +8,7 @@ SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
 $(TARGET) : $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET) $(CFLAGS)
+	@$(CC) $(OBJ) -o $(TARGET) $(CFLAGS)
 
 %.o : %.cpp
 	$(CC) -c $< -o $@ $(CFLAGS)

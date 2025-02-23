@@ -8,10 +8,8 @@ const int COMMAND_LENGTH  = 50;
 
 struct Info_about_text
 {
-    int    max_number_line;
-    int    size_text      ;
-    char*  text           ;
-    char** ptr_line       ;
+    int  size_text;
+    int* text     ;
 };
 
 enum Compare_const
@@ -24,6 +22,21 @@ enum Compare_const
     SECOND_LINE_IS_BIGGER = -1,
 };
 
-void run(Stack_t* stack);
+enum Function_identifier
+{
+    PUSH   = 1,
+    POP    = 2,
+    ADD    = 3,
+    SUB    = 4,
+    MUL    = 5,
+    DIV    = 6,
+    OUT    = 7,
+    SQRT_C = 8,
+    SIN_C  = 9,
+    COS_C  = 10,
+    HLT    = -1,
+};
+
+void perform_comands(Stack_t* stack, Info_about_text* info);
 
 #endif /*RUN_H*/
