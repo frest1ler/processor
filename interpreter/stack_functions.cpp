@@ -32,7 +32,7 @@ stack_elem_t stack_pop (Stack_t * stack)
 
     stack_elem_t return_value = 0;
 
-    if (stack->size == 0) {
+    if (stack->size == 0){
         return return_value;
     }
 
@@ -62,34 +62,19 @@ stack_elem_t stack_pop (Stack_t * stack)
 void stack_destroy(Stack_t * stack)
 {
     #ifdef PROTECTION_ON
-        if (stack->data - 1 != NULL)
-        {
+        if (stack->data - 1 != NULL){
             free(stack->data - 1);
         }
     #else
-        if (stack->data != NULL)
-        {
+        if (stack->data != NULL){
             free(stack->data);
         }
     #endif /*PROTECTION_ON*/
 
-    if (stack != NULL)
-    {
+    if (stack != NULL){
         free(stack);
     }
 }
-
-Stack_t* get_pointer_stack()
-   {
-       Stack_t* stack = (Stack_t*)calloc(1, sizeof(Stack_t)); 
-       if (stack == NULL) 
-       {
-           // Обработка ошибки выделения памяти
-           fprintf(stderr, "Ошибка: не удалось выделить память для стека.\n");
-           exit(EXIT_FAILURE);
-       }
-       return stack;
-   }
 
 void stack_ctor(Stack_t * stack)
 {

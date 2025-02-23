@@ -67,14 +67,37 @@ void check_capacity(Stack_t * stack)
     
 #endif /*PROTECTION_ON*/
 
-void free_up_memory_from_text(Info_about_text* info)
+void free_up_memory_from_text(Text_info* info)
 {
-    if (info->text != NULL)
-    {
+    if (info->text != NULL){
         free(info->text);
     }
-    else
-    {
+    else{
         printf("NULL ptr_text\n");
     }
+    if (info != NULL){
+        free(info);
+    }
+    else{
+        printf("NULL ptr_text\n");
+    }
+}
+
+// Stack_t* get_pointer_stack()
+// {
+//     Stack_t* stack = (Stack_t*)calloc(1, sizeof(Stack_t)); 
+//     if (stack == NULL){
+//         fprintf(stderr, "Error: Failed to allocate memory for stack.\n");
+//         exit(EXIT_FAILURE);
+//     }
+//     return stack;
+// }
+
+void* get_pointer_array(size_t element_count, size_t element_size) {
+    void* array = calloc(element_count, element_size);
+    if (array == NULL){
+        fprintf(stderr, "Error: Failed to allocate memory for array.\n");
+        exit(EXIT_FAILURE);
+    }
+    return array;
 }

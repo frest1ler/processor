@@ -158,7 +158,7 @@ void cos_c(Stack_t * stack)
 }
 
 void hlt(Stack_t * stack)
-{
+{   
     stack_destroy(stack);
 
     exit(EXIT_FAILURE);

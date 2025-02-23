@@ -33,10 +33,10 @@ typedef int stack_elem_t;
 #endif /*PROTECTION_ON*/
 
 #ifdef PROTECTION_ON
-    const double        CANARY_PROTECTION_1  =  666 ;
-    const double        CANARY_PROTECTION_2  = -666 ;
-    const double        CANARY_PROTECTION_3  =  999 ;
-    const double        CANARY_PROTECTION_4  = -999 ;
+    const stack_elem_t  CANARY_PROTECTION_1  =  666 ;
+    const stack_elem_t  CANARY_PROTECTION_2  = -666 ;
+    const stack_elem_t  CANARY_PROTECTION_3  =  999 ;
+    const stack_elem_t  CANARY_PROTECTION_4  = -999 ;
     const stack_elem_t  POISON               = -333 ;
     const unsigned long INITIAL_HASH_SUM     =  5381;
     const int           INITIAL_CAPACITY     =  10  ; //TODO size_t

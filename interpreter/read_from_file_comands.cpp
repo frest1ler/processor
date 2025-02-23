@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <assert.h>
 #include "read_from_file_comands.h"
 
-void calculate_array_size(Info_about_text *info, char* fname);
+void calculate_array_size(Text_info *info, char* fname);
 
-void read_from_file_comands(Info_about_text* info)
+void read_from_file_comands(Text_info* info)
 {
     assert(info);
 
@@ -47,7 +45,7 @@ void read_from_file_comands(Info_about_text* info)
     return;
 }
 
-void calculate_array_size(Info_about_text *info, char* fname)
+void calculate_array_size(Text_info *info, char* fname)
 {
     assert(info);
     assert(fname);
