@@ -163,3 +163,79 @@ void hlt(Stack_t * stack)
 
     exit(EXIT_FAILURE);
 }
+
+void jmp(Text_info* info)
+{   
+    info->ip = info->text[info->ip + 1] - 1;    
+}
+
+void ja(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a > b)
+    {
+        jmp(info);
+    }
+}
+
+void jae(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a >= b)
+    {
+        jmp(info);
+    }
+}
+
+void jb(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a < b)
+    {
+        jmp(info);
+    }
+}
+
+void jbe(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a <= b)
+    {
+        jmp(info);
+    }
+}
+
+void je(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a == b)
+    {
+        jmp(info);
+    }
+}
+
+void jne(Text_info* info, Stack_t * stack)
+{
+    stack_elem_t a = stack_pop(stack);
+    stack_elem_t b = stack_pop(stack);
+
+    if (a != b)
+    {
+        jmp(info);
+    }
+}
+
+// void pushr(Text_info* info, stack_elem_t argument)
+// {
+
+// }

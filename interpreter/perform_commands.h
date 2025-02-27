@@ -3,13 +3,15 @@
 
 const int ARGUMENT_LENGTH = 50;
 const int COMMAND_LENGTH  = 50;
-
+const int QUANTITY        =  5;
 #include "stack.h"
 
 struct Text_info
 {
-    int  size_text;
-    int* text     ;
+    int  size_text          ;
+    int  ip                 ;
+    int* text               ;
+    int  registers[QUANTITY];
 };
 
 enum Compare_const
@@ -35,6 +37,12 @@ enum Function_identifier
     SIN_C  = 9,
     COS_C  = 10,
     JMP    = 11,
+    JA     = 12,
+    JAE    = 13,
+    JB     = 14,
+    JBE    = 15,
+    JE     = 16,
+    JNE    = 17,
     HLT    = -1,
 };
 
