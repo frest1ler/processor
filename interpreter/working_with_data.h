@@ -2,7 +2,7 @@
 #define WORKING_WITH_DATA_H
 
 #include "stack.h"
-#include "perform_comands.h"
+#include "perform_commands.h"
 
 #ifdef PROTECTION_ON
     void          pour_poison_into_empty(stack_elem_t* data, int size, int capacity);

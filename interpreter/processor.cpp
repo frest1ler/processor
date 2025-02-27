@@ -12,7 +12,7 @@ int main()
 
     read_from_file_comands(info);
 
-    perform_comands(stack, info);
+    perform_commands(stack, info);
 
     free_up_memory_from_text(info);
 
