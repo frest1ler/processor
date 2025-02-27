@@ -39,6 +39,12 @@ enum Function_identifier
     SIN_C  = 9,
     COS_C  = 10,
     JMP    = 11,
+    JA     = 12,
+    JAE    = 13,
+    JB     = 14,
+    JBE    = 15,
+    JE     = 16,
+    JNE    = 17,
     HLT    = -1,
 };
 

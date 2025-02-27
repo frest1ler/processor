@@ -38,7 +38,14 @@ int command_argument_check(char* cmd, char* comands, int i)
 {
     char arg[ARGUMENT_LENGTH] = {};
 
-    if (strcmp(cmd, "push") == 0)
+    if (strcmp(cmd, "push") == 0 || 
+        strcmp(cmd,  "jmp") == 0 ||
+        strcmp(cmd,   "ja") == 0 ||
+        strcmp(cmd,  "jae") == 0 ||
+        strcmp(cmd,   "jb") == 0 ||
+        strcmp(cmd,  "jbe") == 0 ||
+        strcmp(cmd,   "je") == 0 ||
+        strcmp(cmd,  "jne") == 0   )
     {
         int num = i;
 
@@ -63,54 +70,93 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument)
         code[*ip] = argument;
         (*ip)++;
     }
-    else if (strcmp(cmd, "pop") == 0)
-    {
+    else if (strcmp(cmd, "pop") == 0){
         code[*ip] = POP;
         (*ip)++;
     }
-    else if (strcmp(cmd, "add") == 0)
-    {
+    else if (strcmp(cmd, "add") == 0){
         code[*ip] = ADD;
         (*ip)++;
     }
-    else if (strcmp(cmd, "sub") == 0)
-    {
+    else if (strcmp(cmd, "sub") == 0){
         code[*ip] = SUB;
         (*ip)++;
     }
-    else if (strcmp(cmd, "mul") == 0)
-    {
+    else if (strcmp(cmd, "mul") == 0){
         code[*ip] = MUL;
         (*ip)++;
     }
-    else if (strcmp(cmd, "div") == 0)
-    {
+    else if (strcmp(cmd, "div") == 0){
         code[*ip] = DIV;
         (*ip)++;
     }
-    else if (strcmp(cmd, "out") == 0)
-    {
+    else if (strcmp(cmd, "out") == 0){
         code[*ip] = OUT;
         (*ip)++;
     }
-    else if (strcmp(cmd, "sqrt_c") == 0)
-    {
+    else if (strcmp(cmd, "sqrt_c") == 0){
         code[*ip] = SQRT_C;
         (*ip)++;
     }
-    else if (strcmp(cmd, "sin_c") == 0)
-    {
+    else if (strcmp(cmd, "sin_c") == 0){
         code[*ip] = SIN_C;
         (*ip)++;
     }
-    else if (strcmp(cmd, "cos_c") == 0)
-    {
+    else if (strcmp(cmd, "cos_c") == 0){
         code[*ip] = COS_C;
         (*ip)++;
     }
     else if (strcmp(cmd, "jmp") == 0)
     {
         code[*ip] = JMP;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "ja") == 0)
+    {
+        code[*ip] = JA;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "jae") == 0)
+    {
+        code[*ip] = JAE;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "jb") == 0)
+    {
+        code[*ip] = JB;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "jbe") == 0)
+    {
+        code[*ip] = JBE;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "je") == 0)
+    {
+        code[*ip] = JE;
+        (*ip)++;
+
+        code[*ip] = argument;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "jne") == 0)
+    {
+        code[*ip] = JNE;
         (*ip)++;
 
         code[*ip] = argument;
