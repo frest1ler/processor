@@ -191,6 +191,16 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
         code[*ip] = argument;
         (*ip)++;
     }
+    else if (strcmp(cmd, "call") == 0)
+    {
+        code[*ip] = CALL;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "ret") == 0)
+    {
+        code[*ip] = RET;
+        (*ip)++;
+    }
     else if (strcmp(cmd, "hlt") == 0)
     {
         code[*ip] = HLT;
