@@ -12,13 +12,14 @@ void sqrt_c(Stack_t * stack);
 void sin_c (Stack_t * stack);
 void cos_c (Stack_t * stack);
 void hlt   (Stack_t * stack);
+void input (Stack_t * stack);
 
-void jmp   (Text_info* info                 );
-void ja    (Text_info* info, Stack_t * stack);
-void jae   (Text_info* info, Stack_t * stack);
-void jb    (Text_info* info, Stack_t * stack);
-void jbe   (Text_info* info, Stack_t * stack);
-void je    (Text_info* info, Stack_t * stack);
-void jne   (Text_info* info, Stack_t * stack);
+void jmp   (Spu* info                 );
+void ja    (Spu* info, Stack_t * stack);
+void jae   (Spu* info, Stack_t * stack);
+void jb    (Spu* info, Stack_t * stack);
+void jbe   (Spu* info, Stack_t * stack);
+void je    (Spu* info, Stack_t * stack);
+void jne   (Spu* info, Stack_t * stack);
 
 #endif /*FUNCTIONS_PROVIDED_BY_PROCESSOR_H*/

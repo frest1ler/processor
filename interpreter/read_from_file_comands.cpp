@@ -4,9 +4,9 @@
 #include <assert.h>
 #include "read_from_file_comands.h"
 
-void calculate_array_size(Text_info *info, char* fname);
+void calculate_array_size(Spu *info, char* fname);
 
-void read_from_file_comands(Text_info* info)
+void read_from_file_comands(Spu* info)
 {
     assert(info);
 
@@ -45,7 +45,7 @@ void read_from_file_comands(Text_info* info)
     return;
 }
 
-void calculate_array_size(Text_info *info, char* fname)
+void calculate_array_size(Spu *info, char* fname)
 {
     assert(info);
     assert(fname);

@@ -38,7 +38,7 @@ void sub(Stack_t * stack)
     stack_elem_t first  = stack_pop(stack);
     stack_elem_t second = stack_pop(stack); //also
 
-    stack_push(stack, first - second);
+    stack_push(stack, second - first);
 
     verify(ASSERT);
 }
@@ -76,7 +76,7 @@ void div(Stack_t * stack)
     stack_elem_t first  = stack_pop(stack);
     stack_elem_t second = stack_pop(stack);
 
-    stack_push(stack, first / second);
+    stack_push(stack, second / first);
 
     verify(ASSERT);
 }
@@ -164,23 +164,26 @@ void hlt(Stack_t * stack)
     exit(EXIT_FAILURE);
 }
 
-void jmp(Text_info* info)
+void jmp(Spu* info)
 {   
+    printf(" jmp ");
     info->ip = info->text[info->ip + 1] - 1;    
 }
 
-void ja(Text_info* info, Stack_t * stack)
+void ja(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a > b)
-    {
+    if (a > b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;
     }
 }
 
-void jae(Text_info* info, Stack_t * stack)
+void jae(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
@@ -191,7 +194,7 @@ void jae(Text_info* info, Stack_t * stack)
     }
 }
 
-void jb(Text_info* info, Stack_t * stack)
+void jb(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
@@ -202,7 +205,7 @@ void jb(Text_info* info, Stack_t * stack)
     }
 }
 
-void jbe(Text_info* info, Stack_t * stack)
+void jbe(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
@@ -213,7 +216,7 @@ void jbe(Text_info* info, Stack_t * stack)
     }
 }
 
-void je(Text_info* info, Stack_t * stack)
+void je(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
@@ -224,7 +227,7 @@ void je(Text_info* info, Stack_t * stack)
     }
 }
 
-void jne(Text_info* info, Stack_t * stack)
+void jne(Spu* info, Stack_t * stack)
 {
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
@@ -234,8 +237,11 @@ void jne(Text_info* info, Stack_t * stack)
         jmp(info);
     }
 }
+void input(Stack_t * stack)
+{
+    stack_elem_t value = 0;
 
-// void pushr(Text_info* info, stack_elem_t argument)
-// {
+    scanf("%d", &value);
 
-// }
+    stack_push(stack, value);
+}

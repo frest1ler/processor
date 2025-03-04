@@ -1,21 +1,37 @@
 #include <stdio.h>
+#include <limits.h>
 #include "perform_commands.h"
 #include "stack_functions.h"
 #include "functions_provided_by_processor.h"
 
-void perform_commands(Stack_t* stack, Text_info* info)
+void perform_commands(Stack_t* stack, Spu* info)
 {
     while(info->ip < info->size_text)
     {
-        if (info->text[info->ip] == PUSH)
+        if ((info->text[info->ip] & REMOVE_MASK) == PUSH)
         {
             (info->ip)++;
             int argument = info->text[info->ip];
 
-            stack_push(stack, argument);
+            if (info->text[info->ip - 1] == PUSH){
+                stack_push(stack, argument);    
+            }
+            else{
+                stack_push(stack, info->registers[argument - 1]);        
+            }
         }
-        else if (info->text[info->ip] == POP){
-            stack_pop(stack);
+        else if ((info->text[info->ip] & REMOVE_MASK) == POP)
+        {
+            int argument = stack_pop(stack);
+
+            if (info->text[info->ip] != POP)
+            {
+                (info->ip)++;
+
+                int n_reg = info->text[info->ip];
+
+                info->registers[n_reg - 1] = argument;
+            }
         }
         else if (info->text[info->ip] == ADD){
             add(stack);
@@ -61,6 +77,9 @@ void perform_commands(Stack_t* stack, Text_info* info)
         }
         else if(info->text[info->ip] == JNE){
             jne(info, stack);
+        }
+        else if(info->text[info->ip] == IN){
+            input(stack);
         }
         else
         {

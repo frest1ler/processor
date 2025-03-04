@@ -12,7 +12,7 @@
     void          check_capacity(Stack_t * stack);
 #endif /*PROTECTION_ON*/
 
-void free_up_memory_from_text(Text_info* info);
+void free_up_memory_from_text(Spu* info);
 void* get_pointer_array(size_t element_count, size_t element_size);
 //Stack_t*     get_pointer_stack();
 

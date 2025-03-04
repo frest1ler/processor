@@ -72,7 +72,7 @@ void display_error(Stack_t * stack, int error, const char* file, int line)
         {                                                \
             if (error & error_value)                     \
             {                                            \
-                printf(output_error, RED);                    \
+                printf(output_error, RED);               \
             }                                            \
         } while(0)
 

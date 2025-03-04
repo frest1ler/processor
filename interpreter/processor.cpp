@@ -5,8 +5,8 @@
 
 int main()
 {
-    Stack_t*   stack = (Stack_t*)  get_pointer_array(1, sizeof(Stack_t)  );
-    Text_info* info  = (Text_info*)get_pointer_array(1, sizeof(Text_info));
+    Stack_t*   stack = (Stack_t*) get_pointer_array(1, sizeof(Stack_t));
+    Spu*       info  = (Spu*)     get_pointer_array(1, sizeof(Spu)    );
 
     stack_ctor(stack);
 

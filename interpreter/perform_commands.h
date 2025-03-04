@@ -4,9 +4,11 @@
 const int ARGUMENT_LENGTH = 50;
 const int COMMAND_LENGTH  = 50;
 const int QUANTITY        =  5;
+const int REMOVE_MASK     = 31;
+
 #include "stack.h"
 
-struct Text_info
+struct Spu
 {
     int  size_text          ;
     int  ip                 ;
@@ -43,9 +45,10 @@ enum Function_identifier
     JBE    = 15,
     JE     = 16,
     JNE    = 17,
+    IN     = 18,
     HLT    = -1,
 };
 
-void perform_commands(Stack_t* stack, Text_info* info);
+void perform_commands(Stack_t* stack, Spu* info);
 
 #endif /*RUN_H*/

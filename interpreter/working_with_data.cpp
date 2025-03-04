@@ -67,7 +67,7 @@ void check_capacity(Stack_t * stack)
     
 #endif /*PROTECTION_ON*/
 
-void free_up_memory_from_text(Text_info* info)
+void free_up_memory_from_text(Spu* info)
 {
     if (info->text != NULL){
         free(info->text);
