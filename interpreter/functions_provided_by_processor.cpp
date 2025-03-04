@@ -245,3 +245,15 @@ void input(Stack_t * stack)
 
     stack_push(stack, value);
 }
+
+void call(Spu* info, Stack_t * stack)
+{
+    int argument = info->ip;
+
+    stack_push(stack, argument);
+}
+
+void ret(Spu* info, Stack_t * stack)
+{
+    info->ip = stack_pop(stack);
+}

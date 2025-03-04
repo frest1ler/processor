@@ -5,6 +5,7 @@ const int ARGUMENT_LENGTH = 50;
 const int COMMAND_LENGTH  = 50;
 const int QUANTITY        =  5;
 const int REMOVE_MASK     = 31;
+const int EX              =  5;
 
 #include "stack.h"
 
@@ -46,6 +47,8 @@ enum Function_identifier
     JE     = 16,
     JNE    = 17,
     IN     = 18,
+    CALL   = 19,
+    RET    = 20,
     HLT    = -1,
 };
 

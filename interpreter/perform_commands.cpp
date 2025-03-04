@@ -57,6 +57,12 @@ void perform_commands(Stack_t* stack, Spu* info)
         else if (info->text[info->ip] == COS_C){
             cos_c(stack);
         }
+        else if (info->text[info->ip] == CALL){
+            call(info, stack);
+        }
+        else if (info->text[info->ip] == RET){
+            ret(info, stack);
+        }
         else if (info->text[info->ip] == HLT){    
             hlt(stack);
         }

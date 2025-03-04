@@ -22,4 +22,7 @@ void jbe   (Spu* info, Stack_t * stack);
 void je    (Spu* info, Stack_t * stack);
 void jne   (Spu* info, Stack_t * stack);
 
+void call  (Spu* info, Stack_t * stack);
+void ret   (Spu* info, Stack_t * stack);
+
 #endif /*FUNCTIONS_PROVIDED_BY_PROCESSOR_H*/
