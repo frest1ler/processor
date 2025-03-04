@@ -39,7 +39,7 @@ void read_commands(Info_about_text* info)
         exit(EXIT_FAILURE);
     }
     fclose(point_to_file);
-
+    printf("%s\n", info->text);
     info->text[info->size_text - 1] = '\0';
 
     return;

@@ -45,6 +45,7 @@ enum Function_identifier
     JBE    = 15,
     JE     = 16,
     JNE    = 17,
+    IN     = 18,
     HLT    = -1,
 };
 

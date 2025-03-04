@@ -1,44 +1,28 @@
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
+#include <math.h>
 #include "write_to_file.h"
 
-void write_byte_to_file(stack_elem_t* code, size_t ip);
+void write_byte_to_file      (stack_elem_t* code, size_t ip);
 void free_up_memory_from_text(Info_about_text* info);
-void copy_command_name(int* i, char* comands, char* cmd);
-int command_argument_check(char* cmd, char* comands, int i);
-int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument);
+void copy_command_name       (int* i, char* comands, char* cmd);
+
+int  encode_command          (char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg);
+int  check_arg               (char* arg);
 
 void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
 {
-    int i = 0;
-    char cmd[COMMAND_LENGTH] = {};
+    int i        = 0;
+    int argument = 0;
+    int n_reg    = 0;
+    char cmd[COMMAND_LENGTH]  = {};
+    char arg[ARGUMENT_LENGTH] = {};
 
     copy_command_name(&i, comands, cmd);
 
-    int argument = command_argument_check(cmd, comands, i);
-
-    encode_command(cmd, ip, code, argument);
-}
-
-void copy_command_name(int* i, char* comands, char* cmd)
-{
-    while(comands[*i] != ' ' && comands[*i] != '\0' &&
-          comands[*i] != '\r' && *i < COMMAND_LENGTH)
-    {
-        //printf("i = %d\n", *i);
-        
-        cmd[*i] = comands[*i];
-        (*i)++;
-    }
-
-    (*i)++;
-}
-
-int command_argument_check(char* cmd, char* comands, int i)
-{
-    char arg[ARGUMENT_LENGTH] = {};
-
-    if (strcmp(cmd, "push") == 0 || 
+    if (strcmp(cmd, "push") == 0 ||
+        strcmp(cmd,  "pop") == 0 ||
         strcmp(cmd,  "jmp") == 0 ||
         strcmp(cmd,   "ja") == 0 ||
         strcmp(cmd,  "jae") == 0 ||
@@ -56,23 +40,64 @@ int command_argument_check(char* cmd, char* comands, int i)
             i++;
         }
         arg[i] = '\0';
+
+        if ((n_reg = check_arg(arg)) == 0){
+            argument = atoi(arg);
+        }
+        else{
+            argument = n_reg;
+        }
     }
-    return atoi(arg);
+    
+    encode_command(cmd, ip, code, argument, n_reg);
 }
 
-int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument)
+void copy_command_name(int* i, char* comands, char* cmd)
 {
-    if (strcmp(cmd, "push") == 0)//TODO codegen
-    {
-        code[*ip] = PUSH;
-        (*ip)++;
+    while(comands[*i] != ' ' && comands[*i] != '\0' &&
+          comands[*i] != '\r' && *i < COMMAND_LENGTH  ){
 
-        code[*ip] = argument;
-        (*ip)++;
+        cmd[*i] = comands[*i];
+        (*i)++;
     }
-    else if (strcmp(cmd, "pop") == 0){
-        code[*ip] = POP;
-        (*ip)++;
+    (*i)++;
+}
+
+int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg)
+{
+    if (strcmp(cmd, "push") == 0)
+    {   
+        if (n_reg == 0)
+        {
+            code[*ip] = PUSH;
+            (*ip)++;
+
+            code[*ip] = argument;
+            (*ip)++;
+        }
+        else
+        {
+            code[*ip] = PUSH + 32;
+            (*ip)++;
+
+            code[*ip] = n_reg;
+            (*ip)++;    
+        }
+    }   
+    else if (strcmp(cmd, "pop") == 0)
+    {
+        if (n_reg == 0)
+        {
+            code[*ip] = POP;
+            (*ip)++;
+        }
+        else
+        {
+            code[*ip] = POP + 32;
+            (*ip)++;
+            code[*ip] = n_reg;
+            (*ip)++;
+        }
     }
     else if (strcmp(cmd, "add") == 0){
         code[*ip] = ADD;
@@ -104,6 +129,10 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument)
     }
     else if (strcmp(cmd, "cos_c") == 0){
         code[*ip] = COS_C;
+        (*ip)++;
+    }
+    else if (strcmp(cmd, "input") == 0){
+        code[*ip] = IN;
         (*ip)++;
     }
     else if (strcmp(cmd, "jmp") == 0)
@@ -174,7 +203,7 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument)
 
         return 1;
     }
-    printf("%s", cmd);
+    printf("%s ", cmd);
 
     return 0;    
 }
@@ -204,15 +233,14 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
 
     FILE * point_to_file = fopen(fname, "ab");
 
-    if (!point_to_file)
-    {
+    if (!point_to_file){
         printf("The file does not open\n");
         exit(EXIT_FAILURE);
     }
 
     printf("ip=%lu\n", ip);
 
-    for(int k = 0; k < 10; k++)
+    for(int k = 0; k < 3; k++)
     {
         printf("%d ", code[k]);
     }
@@ -232,21 +260,37 @@ void write_byte_to_file(stack_elem_t* code, size_t ip)
 
 void free_up_memory_from_text(Info_about_text* info)
 {
-    if (info->text != NULL)
-    {
+    if (info->text != NULL){
         free(info->text);
     }
-    else
-    {
+    else{
         printf("NULL ptr_text\n");
     }
 
-    if (info->ptr_line != NULL)
-    {
+    if (info->ptr_line != NULL){
         free(info->ptr_line);  
     }
-    else
-    {
+    else{
         printf("NULL ptr_line\n");
     }
+}
+
+int check_arg(char* arg)
+{
+    if (strcmp(arg, "Ax") == 0){
+        return 1;
+    }
+    if (strcmp(arg, "Bx") == 0){
+        return 2;
+    }
+    if (strcmp(arg, "Cx") == 0){
+        return 3;
+    }
+    if (strcmp(arg, "Dx") == 0){
+        return 4;
+    }
+    if (strcmp(arg, "Ex") == 0){
+        return 5;
+    }
+    return 0;
 }
