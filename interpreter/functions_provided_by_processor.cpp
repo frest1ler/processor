@@ -166,7 +166,7 @@ void hlt(Stack_t * stack)
 
 void jmp(Spu* info)
 {   
-    printf(" jmp ");
+    printf(" jmp -> %d", info->text[info->ip + 1]);
     info->ip = info->text[info->ip + 1] - 1;    
 }
 
@@ -188,9 +188,11 @@ void jae(Spu* info, Stack_t * stack)
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a >= b)
-    {
+    if (a >= b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;
     }
 }
 
@@ -199,9 +201,11 @@ void jb(Spu* info, Stack_t * stack)
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a < b)
-    {
+    if (a < b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;
     }
 }
 
@@ -210,9 +214,11 @@ void jbe(Spu* info, Stack_t * stack)
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a <= b)
-    {
+    if (a <= b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;
     }
 }
 
@@ -221,9 +227,11 @@ void je(Spu* info, Stack_t * stack)
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a == b)
-    {
+    if (a == b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;    
     }
 }
 
@@ -232,9 +240,11 @@ void jne(Spu* info, Stack_t * stack)
     stack_elem_t a = stack_pop(stack);
     stack_elem_t b = stack_pop(stack);
 
-    if (a != b)
-    {
+    if (a != b){
         jmp(info);
+    }
+    else{
+        (info->ip)++;
     }
 }
 void input(Stack_t * stack)
@@ -251,9 +261,11 @@ void call(Spu* info, Stack_t * stack)
     int argument = info->ip;
 
     stack_push(stack, argument);
+
+    jmp(info);
 }
 
 void ret(Spu* info, Stack_t * stack)
 {
-    info->ip = stack_pop(stack);
+    info->ip = stack_pop(stack) + 1;
 }

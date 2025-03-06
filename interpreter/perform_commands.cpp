@@ -34,21 +34,27 @@ void perform_commands(Stack_t* stack, Spu* info)
             }
         }
         else if (info->text[info->ip] == ADD){
+            printf("add\n");
             add(stack);
         }
         else if (info->text[info->ip] == SUB){
+            printf("sub\n");
             sub(stack);
         }
         else if (info->text[info->ip] == MUL){
+            printf("mul\n");
             mul(stack);
         }
         else if (info->text[info->ip] == DIV){
+            printf("div\n");
             div(stack);
         }
         else if (info->text[info->ip] == OUT){
+            printf("out\n");
             out(stack);
         }
         else if (info->text[info->ip] == SQRT_C){
+            printf("sqrt_c\n");
             sqrt_c(stack);
         }
         else if (info->text[info->ip] == SIN_C){
@@ -58,18 +64,23 @@ void perform_commands(Stack_t* stack, Spu* info)
             cos_c(stack);
         }
         else if (info->text[info->ip] == CALL){
+            printf("call\n");
             call(info, stack);
         }
         else if (info->text[info->ip] == RET){
+            printf("ret\n");
             ret(info, stack);
         }
         else if (info->text[info->ip] == HLT){    
+            printf("hlt\n");
             hlt(stack);
         }
         else if(info->text[info->ip] == JMP){
+            printf("jmp\n");
             jmp(info);
         }
         else if(info->text[info->ip] == JA){
+            printf("ja\n");
             ja(info, stack);
         }
         else if(info->text[info->ip] == JB){
@@ -79,6 +90,7 @@ void perform_commands(Stack_t* stack, Spu* info)
             jbe(info, stack);
         }
         else if(info->text[info->ip] == JE){
+            printf("je\n");
             je(info, stack);
         }
         else if(info->text[info->ip] == JNE){
