@@ -23,6 +23,7 @@ void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
 
     if (strcmp(cmd, "push") == 0 ||
         strcmp(cmd,  "pop") == 0 ||
+        strcmp(cmd, "call") == 0 ||
         strcmp(cmd,  "jmp") == 0 ||
         strcmp(cmd,   "ja") == 0 ||
         strcmp(cmd,  "jae") == 0 ||
@@ -194,6 +195,9 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
     else if (strcmp(cmd, "call") == 0)
     {
         code[*ip] = CALL;
+        (*ip)++;
+
+        code[*ip] = argument;
         (*ip)++;
     }
     else if (strcmp(cmd, "ret") == 0)

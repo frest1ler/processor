@@ -1,6 +1,68 @@
-push 10
-push 10
-add
-push 1
+input                               
+pop Ax  
+input   
+pop Bx  
+input    
+pop Cx  
+push Ax
+push 0
+je 61
+call 92
+push Dx
+push 0
+je 78
+push Dx
+push 0
+ja 109  
+push -1
+push Bx
 mul
+push Dx
+add
+push 2
+push Ax
+mul
+div
+out 
+push -1
+push Bx
+mul
+push Dx
+sub
+push 2
+push Ax
+mul
+div
+out 
+jmp 109
+push Bx
+push 0
+je 109
+push -1
+push Cx
+mul
+push Bx
+div
+out 
+jmp 109
+push -1
+push Bx 
+mul
+push 2
+push Ax
+mul
+div
+out
+jmp 109
+push Bx  
+push Bx 
+mul  
+push 4  
+push Ax   
+push Cx 
+mul
+mul
+sub 
+pop Dx  
+ret
 hlt
