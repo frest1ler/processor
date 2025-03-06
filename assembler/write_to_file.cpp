@@ -10,12 +10,17 @@ void copy_command_name       (int* i, char* comands, char* cmd);
 
 int  encode_command          (char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg);
 int  check_arg               (char* arg);
+int  check_mark_indicator    (char* arg, Info_about_text* info);
+int  string_cmp              (char* str1, char* str2);
 
-void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
-{
+char get_last_el_string      (char* str); 
+
+void perform_comands(char* comands, size_t* ip, stack_elem_t* code, Info_about_text* info)
+{   
     int i        = 0;
     int argument = 0;
     int n_reg    = 0;
+
     char cmd[COMMAND_LENGTH]  = {};
     char arg[ARGUMENT_LENGTH] = {};
 
@@ -42,15 +47,70 @@ void perform_comands(char* comands, size_t* ip, stack_elem_t* code)
         }
         arg[i] = '\0';
 
-        if ((n_reg = check_arg(arg)) == 0){
-            argument = atoi(arg);
+        if (strcmp(cmd, "push") == 0 ||
+            strcmp(cmd,  "pop") == 0   )
+        {
+            if ((n_reg = check_arg(arg)) == 0){
+                argument = atoi(arg);
+            }
+            else{
+                argument = n_reg;
+            }
         }
-        else{
-            argument = n_reg;
+        else 
+        {
+            argument = check_mark_indicator(arg, info);
+            printf("arg=%d\n", argument);
         }
     }
-    
+    printf("int argument = %d\n", argument);
     encode_command(cmd, ip, code, argument, n_reg);
+}
+
+int check_mark_indicator(char* arg, Info_about_text* info)
+{
+    char mark[ARGUMENT_LENGTH] = {};
+
+    int  i  = 0;
+    int  ip = 0;
+
+    while(arg[i] != '\0')
+    {
+        mark[i] = arg[i];
+
+        i++;
+    }
+    mark[i]     = ':' ;
+    //mark[i + 1] = '\0';
+    printf("mark= %s\n", mark);
+
+    char last_el = 0;
+
+    for(int number_line = 0; number_line < info->max_number_line; number_line++)
+    {   
+        printf("n1 = %s ; n2 = %s ; ip = %d\n", mark, info->ptr_line[number_line], ip);
+        if (string_cmp(mark, info->ptr_line[number_line]) == 0)
+        {   
+            return ip;
+        }
+        else if (string_cmp(info->ptr_line[number_line], "push") == 0 ||
+                 string_cmp(info->ptr_line[number_line],  "pop") == 0 ||
+                 string_cmp(info->ptr_line[number_line], "call") == 0 ||
+                 string_cmp(info->ptr_line[number_line],  "jmp") == 0 ||
+                 string_cmp(info->ptr_line[number_line],   "ja") == 0 ||
+                 string_cmp(info->ptr_line[number_line],  "jae") == 0 ||
+                 string_cmp(info->ptr_line[number_line],   "jb") == 0 ||
+                 string_cmp(info->ptr_line[number_line],  "jbe") == 0 ||
+                 string_cmp(info->ptr_line[number_line],   "je") == 0 ||
+                 string_cmp(info->ptr_line[number_line],  "jne") == 0   )
+        {
+            ip += 2;
+        }
+        else if ((last_el = get_last_el_string(info->ptr_line[number_line])) != ':'){
+            ip += 1;
+        }
+    } 
+    return 0;
 }
 
 void copy_command_name(int* i, char* comands, char* cmd)
@@ -140,7 +200,7 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
     {
         code[*ip] = JMP;
         (*ip)++;
-
+        printf("jmp_arg = %d", argument);
         code[*ip] = argument;
         (*ip)++;
     }
@@ -200,25 +260,20 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
         code[*ip] = argument;
         (*ip)++;
     }
-    else if (strcmp(cmd, "ret") == 0)
-    {
+    else if (strcmp(cmd, "ret") == 0){
         code[*ip] = RET;
         (*ip)++;
     }
-    else if (strcmp(cmd, "hlt") == 0)
-    {
+    else if (strcmp(cmd, "hlt") == 0){
         code[*ip] = HLT;
         (*ip)++;
     }
     else
     {
-        printf("%s", cmd);
         printf("%s : there is no such command\n", cmd);
 
         return 1;
     }
-    printf("%s ", cmd);
-
     return 0;    
 }
 
@@ -232,8 +287,9 @@ void encode_to_asm(Info_about_text* info, stack_elem_t* code)
     size_t ip = 0;
 
     for(int number_comand = 0; number_comand < info->max_number_line - 1; number_comand++)
-    {
-        perform_comands(info->ptr_line[number_comand], &ip, code);
+    {   
+        printf("\n%dcom = %s\n", number_comand, info->ptr_line[number_comand]);
+        perform_comands(info->ptr_line[number_comand], &ip, code, info);
     }
 
     free_up_memory_from_text(info);
@@ -307,4 +363,33 @@ int check_arg(char* arg)
         return 5;
     }
     return 0;
+}
+
+int string_cmp(char* str1, char* str2)
+{
+    int i = 0;
+
+    while(str1[i] != '\n' && str1[i] != '\0' && str1[i] != ' ' && str1[i] != '\r' &&
+          str2[i] != '\n' && str2[i] != '\0' && str2[i] != ' ' && str2[i] != '\r'   )
+    {   
+        if (str1[i] != str2[i]){
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+
+char get_last_el_string(char* str) 
+{
+    if (str == NULL || str[0] == '\0'){
+        return '\0'; 
+    }
+    
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    //printf("last=[%c]\n", str[length - 2]);
+    return str[length - 2];
 }

@@ -51,7 +51,7 @@ enum Function_identifier
     HLT    = -1,
 };
 
-void perform_comands(char* comands, size_t* ip, stack_elem_t* code);
+void perform_comands(char* comands, size_t* ip, stack_elem_t* code, Info_about_text* info);
 void encode_to_asm(Info_about_text* info, stack_elem_t* code);
 
 #endif /*WRITE_ASM_COMANDS_TO_FILE_H*/
