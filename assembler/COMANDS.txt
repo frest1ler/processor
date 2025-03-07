@@ -37,7 +37,9 @@ mul
 div
 out 
 jmp halt
+
 linear:
+
 push Bx
 push 0
 je halt
@@ -48,7 +50,9 @@ push Bx
 div
 out 
 jmp halt
+
 oneroot:
+
 push -1
 push Bx 
 mul
@@ -58,7 +62,9 @@ mul
 div
 out
 jmp halt
+
 discr:
+
 push Bx  
 push Bx 
 mul  
@@ -70,5 +76,7 @@ mul
 sub 
 pop Dx  
 ret
+
 halt:
+
 hlt

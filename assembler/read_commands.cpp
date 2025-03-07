@@ -14,11 +14,11 @@ void read_commands(Info_about_text* info)
 {
     assert(info);
 
-    const char* fname = "COMANDS.txt"; //TODO
+    const char* fname = "COMANDS.txt"; 
 
     FILE * point_to_file = fopen(fname, "rb");
 
-    if (!point_to_file) // FUNC
+    if (!point_to_file) 
     {
         printf("The file does not open\n");
 
@@ -136,10 +136,9 @@ static void count_number_lines(Info_about_text* info)
 //     assert(info);
 //     assert(line_element);
 //     assert(info->text);
-//
-//     while(info->text[*line_element + 1] == '\n')
+//     while(info->text[*line_element + 1] == '\n' || info->text[*line_element + 1] == '\r')
 //     {
-//         *line_element++;
+//         (*line_element)++;
 //     }
 // }
 

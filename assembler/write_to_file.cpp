@@ -53,10 +53,10 @@ void perform_comands(char* comands, size_t* ip, stack_elem_t* code, Info_about_t
         else 
         {
             argument = check_mark_indicator(arg, info);
-            printf("arg=%d\n", argument);
+            //printf("arg=%d\n", argument);
         }
     }
-    printf("int argument = %d\n", argument);
+    //printf("int argument = %d\n", argument);
     encode_command(cmd, ip, code, argument, n_reg);
 }
 
@@ -82,8 +82,10 @@ int check_mark_indicator(char* arg, Info_about_text* info)
     for(int number_line = 0; number_line < info->max_number_line; number_line++)
     {   
         printf("n1 = %s ; n2 = %s ; ip = %d\n", mark, info->ptr_line[number_line], ip);
+        
         if (string_cmp(mark, info->ptr_line[number_line]) == 0)
         {   
+            printf("cat\n");
             return ip;
         }
         else if (string_cmp(info->ptr_line[number_line], "push") == 0 ||
@@ -99,7 +101,8 @@ int check_mark_indicator(char* arg, Info_about_text* info)
         {
             ip += 2;
         }
-        else if ((last_el = get_last_el_string(info->ptr_line[number_line])) != ':'){
+        else if ((last_el = get_last_el_string(info->ptr_line[number_line])) != ':' &&
+                 info->ptr_line[number_line][0] != '\r'){
             ip += 1;
         }
     } 
@@ -275,10 +278,11 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
         code[*ip] = HLT;
         (*ip)++;
     }
-    else if ((symbol = get_last_el_string(cmd)) != ':')
+    else if ((symbol = get_last_el_string(cmd)) != ':' &&
+             strcmp(cmd, "\0") != 0)
     {
         printf("last_el=%c\n", symbol);
-        printf("%s : there is no such command\n", cmd);
+        printf("[%s]: there is no such command\n", cmd);    
 
         return 1;
     }
@@ -295,8 +299,8 @@ void encode_to_asm(Info_about_text* info, stack_elem_t* code)
     size_t ip = 0;
 
     for(int number_comand = 0; number_comand < info->max_number_line - 1; number_comand++)
-    {   
-        printf("\n%dcom = %s\n", number_comand, info->ptr_line[number_comand]);
+    {   //printf("com[%s]\n", info->ptr_line[number_comand]);
+        printf("%dcom = %s\n", number_comand, info->ptr_line[number_comand]);
         perform_comands(info->ptr_line[number_comand], &ip, code, info);
     }
 
@@ -385,6 +389,10 @@ int string_cmp(char* str1, char* str2)
         }
         i++;
     }
+
+    if (i == 0){
+        return 1;
+    }
     return 0;
 }
 
@@ -398,6 +406,6 @@ char get_last_el_string(char* str)
     while (str[length] != '\0' && str[length] != '\n' && str[length] != '\r') {
         length++;
     }
-    printf("last=[%c]\n", str[length - 1]);
+    //printf("last=[%c]\n", str[length - 1]);
     return str[length - 1];
 }
