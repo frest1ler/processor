@@ -7,6 +7,7 @@
 void write_byte_to_file      (stack_elem_t* code, size_t ip);
 void free_up_memory_from_text(Info_about_text* info);
 void copy_command_name       (int* i, char* comands, char* cmd);
+void copy_argument_name      (int i, char* comands, char* arg);
 
 int  encode_command          (char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg);
 int  check_arg               (char* arg);
@@ -36,20 +37,12 @@ void perform_comands(char* comands, size_t* ip, stack_elem_t* code, Info_about_t
         strcmp(cmd,  "jbe") == 0 ||
         strcmp(cmd,   "je") == 0 ||
         strcmp(cmd,  "jne") == 0   )
-    {
-        int num = i;
-
-        while(comands[i] != ' ' && comands[i] != '\0' &&
-              comands[i] != '\r' && i < COMMAND_LENGTH)
-        {
-            arg[i - num] = comands[i];
-            i++;
-        }
-        arg[i] = '\0';
+    {  
+        copy_argument_name(i, comands, arg);
 
         if (strcmp(cmd, "push") == 0 ||
             strcmp(cmd,  "pop") == 0   )
-        {
+        { 
             if ((n_reg = check_arg(arg)) == 0){
                 argument = atoi(arg);
             }
@@ -81,7 +74,7 @@ int check_mark_indicator(char* arg, Info_about_text* info)
         i++;
     }
     mark[i]     = ':' ;
-    //mark[i + 1] = '\0';
+
     printf("mark= %s\n", mark);
 
     char last_el = 0;
@@ -122,6 +115,18 @@ void copy_command_name(int* i, char* comands, char* cmd)
         (*i)++;
     }
     (*i)++;
+}
+void copy_argument_name(int i, char* comands, char* arg)
+{
+    int num = i;
+
+        while(comands[i] != ' ' && comands[i] != '\0' &&
+              comands[i] != '\r' && i < COMMAND_LENGTH)
+        {
+            arg[i - num] = comands[i];
+            i++;
+        }
+        arg[i] = '\0';
 }
 
 int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg)
