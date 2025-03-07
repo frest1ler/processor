@@ -18,6 +18,7 @@ push -1
 push Bx
 mul
 push Dx
+sqrt_c
 add
 push 2
 push Ax
@@ -28,6 +29,7 @@ push -1
 push Bx
 mul
 push Dx
+sqrt_c
 sub
 push 2
 push Ax

@@ -125,7 +125,9 @@ void copy_command_name(int* i, char* comands, char* cmd)
 }
 
 int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int n_reg)
-{
+{   
+    char symbol = 0;
+
     if (strcmp(cmd, "push") == 0)
     {   
         if (n_reg == 0)
@@ -268,8 +270,9 @@ int encode_command(char* cmd, size_t* ip, stack_elem_t* code, int argument, int 
         code[*ip] = HLT;
         (*ip)++;
     }
-    else
+    else if ((symbol = get_last_el_string(cmd)) != ':')
     {
+        printf("last_el=%c\n", symbol);
         printf("%s : there is no such command\n", cmd);
 
         return 1;
@@ -387,9 +390,9 @@ char get_last_el_string(char* str)
     }
     
     int length = 0;
-    while (str[length] != '\0') {
+    while (str[length] != '\0' && str[length] != '\n' && str[length] != '\r') {
         length++;
     }
-    //printf("last=[%c]\n", str[length - 2]);
-    return str[length - 2];
+    printf("last=[%c]\n", str[length - 1]);
+    return str[length - 1];
 }
