@@ -6,14 +6,14 @@ input
 pop Cx  
 push Ax
 push 0
-je 61
-call 92
+je linear
+call discr
 push Dx
 push 0
-je 78
+je oneroot
 push Dx
 push 0
-ja 109  
+ja halt  
 push -1
 push Bx
 mul
@@ -34,17 +34,19 @@ push Ax
 mul
 div
 out 
-jmp 109
+jmp halt
+linear:
 push Bx
 push 0
-je 109
+je halt
 push -1
 push Cx
 mul
 push Bx
 div
 out 
-jmp 109
+jmp halt
+oneroot:
 push -1
 push Bx 
 mul
@@ -53,7 +55,8 @@ push Ax
 mul
 div
 out
-jmp 109
+jmp halt
+discr:
 push Bx  
 push Bx 
 mul  
@@ -65,4 +68,5 @@ mul
 sub 
 pop Dx  
 ret
+halt:
 hlt
